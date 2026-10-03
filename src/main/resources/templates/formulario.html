@@ -14,7 +14,19 @@
             <input name="nombre" type="text" placeholder="nombre">
 
             <p>Precio del plato:</p>
-            <input name="precio" type="number" placeholder="precio">
+            <input name="precio" type="number" placeholder="precio" step="0.01">
+
+            <p>Elige el tipo de plato</p>
+
+            <select name="tipo">
+                <option value="PRIMERRO">Primero</option>
+                <option value="SEGUNDO">Segundo</option>
+                <option value="POSTRE">Postre</option>
+            </select>
+
+            <br> <br>
+
+            <button>Guardar plato</button>
         </form>
 </body>
 </html>
