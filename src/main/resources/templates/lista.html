@@ -1,12 +1,19 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
 </head>
 <body>
 <a href="index">Volver al menu</a> <a href="formulario">Crear plato</a> <a href="lista">Menú</a>
-<h1> Restaurante - Paco Meralgo </h1>
+
+<ul th:each="plato : ${platos}">
+
+  <li th:text="${plato.nombre}"></li>
+  <li th:text="${plato.precio}"></li>
+  <li th:text="${plato.tipo}"></li>
+
+</ul>
 
 </body>
 </html>

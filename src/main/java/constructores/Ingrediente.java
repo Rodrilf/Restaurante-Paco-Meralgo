@@ -4,10 +4,6 @@ public class Ingrediente {
 
     private String nombre_ingrediente;
 
-    // Constructor vacío para el HTML
-    public Ingrediente() {
-    }
-
     public Ingrediente(String nombre_ingrediente) {
         this.nombre_ingrediente = nombre_ingrediente;
     }
