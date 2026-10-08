@@ -8,6 +8,7 @@ public class Ingrediente {
         this.nombre_ingrediente = nombre_ingrediente;
     }
 
+
     public String getNombre_ingrediente() {
         return nombre_ingrediente;
     }

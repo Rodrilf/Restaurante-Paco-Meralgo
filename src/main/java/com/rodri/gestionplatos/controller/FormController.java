@@ -19,6 +19,7 @@ public class FormController {
     un campo vacío y que se vayan añadiendo a una texto */
 
     private List<Plato> platos = new ArrayList<>();
+    private List<Ingrediente> ingredientes = new ArrayList<>();
 
     @GetMapping("/lista")
     public String lista(Model model){

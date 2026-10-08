@@ -7,12 +7,16 @@
 <body>
 <a href="index">Volver al menu</a> <a href="formulario">Crear plato</a> <a href="lista">Menú</a>
 
-<ul th:each="plato : ${platos}">
+<h1>Nuestro menú</h1>
 
+<ul th:each="plato : ${platos}">
   <li th:text="${plato.nombre}"></li>
   <li th:text="${plato.precio}"></li>
   <li th:text="${plato.tipo}"></li>
-    
+</ul>
+
+<ul th:each="Ingrediente: ${ingredientes}">
+    <li th:text="${Ingrediente.nombre_ingrediente}"></li>
 </ul>
 
 </body>

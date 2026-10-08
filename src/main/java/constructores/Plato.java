@@ -1,6 +1,6 @@
 package constructores;
 
-public class Plato {
+public class    Plato {
     private String nombre;
     private double precio;
     private String tipo;
