@@ -6,6 +6,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.ArrayList;
@@ -24,6 +25,7 @@ public class FormController {
     @GetMapping("/lista")
     public String lista(Model model){
         model.addAttribute("platos", platos);
+        model.addAttribute("ingredientes",ingredientes);
         return "lista";
     }
 
@@ -33,9 +35,11 @@ public class FormController {
     }
 
     @PostMapping("/datos")
-    String datos(Plato plato, Model model) {
+    String datos(Plato plato, @RequestBody Boolean ingrediente_azucar, Model model) {
         platos.add(plato);
+        ingredientes.add(ingrediente);
         model.addAttribute("platos", platos);
+        model.addAttribute("ingredientes", ingredientes);
         return "datosRespuestas";
     }
 }
