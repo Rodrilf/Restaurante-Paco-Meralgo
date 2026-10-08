@@ -18,9 +18,9 @@ public class FormController {
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     public FormController() {
-        ingredientes.add(new Ingrediente("Leche"));
-        ingredientes.add(new Ingrediente("Harina"));
-        ingredientes.add(new Ingrediente("Huevo"));
+        ingredientes.add(new Ingrediente("Tomate"));
+        ingredientes.add(new Ingrediente("Pasta"));
+        ingredientes.add(new Ingrediente("Sal"));
         ingredientes.add(new Ingrediente("Azúcar"));
     }
 
