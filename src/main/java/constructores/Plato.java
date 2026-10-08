@@ -1,5 +1,8 @@
 package constructores;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class    Plato {
     private String nombre;
     private double precio;
@@ -9,6 +12,16 @@ public class    Plato {
         this.nombre = nombre;
         this.precio = precio;
         this.tipo = tipo;
+    }
+
+    private List<Ingrediente> ingredientes = new ArrayList<>();
+
+    public List<Ingrediente> getIngredientes() {
+        return ingredientes;
+    }
+
+    public void setIngredientes(List<Ingrediente> ingredientes) {
+        this.ingredientes = ingredientes;
     }
 
     public String getNombre() {

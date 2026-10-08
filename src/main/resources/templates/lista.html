@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
@@ -9,15 +9,22 @@
 
 <h1>Nuestro menú</h1>
 
-<ul th:each="plato : ${platos}">
-  <li th:text="${plato.nombre}"></li>
-  <li th:text="${plato.precio}"></li>
-  <li th:text="${plato.tipo}"></li>
-</ul>
+<div th:each="plato : ${platos}">
+    <ul>
+        <li th:text="${plato.nombre}"></li>
+        <li th:text="${plato.precio}"></li>
+        <li th:text="${plato.tipo}"></li>
+    </ul>
 
-<ul th:each="ingrediente: ${ingredientes}">
-    <li th:text="${ingrediente.nombre_ingrediente}"></li>
-</ul>
+    <p>Ingredientes:</p>
+
+    <ul>
+        <li th:each="ingrediente : ${plato.ingredientes}"
+            th:text="${ingrediente.nombre_ingrediente}">
+        </li>
+    </ul>
+
+</div>
 
 </body>
 </html>
