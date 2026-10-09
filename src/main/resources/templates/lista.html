@@ -2,28 +2,34 @@
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Menú</title>
 </head>
 <body>
-<a href="index">Volver al menu</a> <a href="formulario">Crear plato</a> <a href="lista">Menú</a>
+
+<a href="index">Volver al menu</a>|
+<a href="formulario">Crear plato</a>|
+<a href="lista">Menú</a>|
 
 <h1>Nuestro menú</h1>
 
 <div th:each="plato : ${platos}">
     <ul>
+        <p>-------- Plato -----------</p>
         <li th:text="${plato.nombre}"></li>
         <li th:text="${plato.precio}"></li>
         <li th:text="${plato.tipo}"></li>
     </ul>
 
-    <p>Ingredientes:</p>
-
     <ul>
-        <li th:each="ingrediente : ${plato.ingredientes}"
-            th:text="${ingrediente.nombre_ingrediente}">
-        </li>
+        <p>-------- Ingredientes ----</p>
+        <li th:each="ingrediente : ${plato.ingredientes}" th:text="${ingrediente.nombre_ingrediente}"></li>
     </ul>
 
+    <form action="detalles.html">
+        <input type="submit" value="ver detalles"/>
+    </form>
+
+    <br> <br> <br>
 </div>
 
 </body>
