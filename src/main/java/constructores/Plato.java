@@ -14,6 +14,8 @@ public class    Plato {
         this.tipo = tipo;
     }
 
+    /* LISTA DE INGREDIENTES PARA RECOGERLA DESDE FORMULARIO */
+
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
     public List<Ingrediente> getIngredientes() {
