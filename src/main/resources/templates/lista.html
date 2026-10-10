@@ -6,30 +6,68 @@
 </head>
 <body>
 
-<a href="index">Volver al menu</a>|
+<a href="index">Inicio</a>|
 <a href="formulario">Crear plato</a>|
 <a href="lista">Menú</a>|
 
 <h1>Nuestro menú</h1>
 
+<form action="/buscarPorTipo" method="get">
+    <p>Filtrar por tipo:</p>
+    <select name="tipo">
+        <option value="">Todos los platos</option>
+        <option value="PRIMERO">Primero</option>
+        <option value="SEGUNDO">Segundo</option>
+        <option value="POSTRE">Postre</option>
+    </select>
+    <input type="submit" value="Buscar">
+</form>
+
+<form action="/busquedaPorIngrediente" method="get">
+    <p>Filtrar por ingrediente:</p>
+    <select name="ingrediente">
+        <option value="Tomate">Tomate</option>
+        <option value="Pasta">Pasta</option>
+        <option value="Sal">Sal</option>
+        <option value="Azucar">Azucar</option>
+        <option value="Arroz">Arroz</option>
+        <option value="Pollo">Pollo</option>
+        <option value="Carne">Carne</option>
+        <option value="Pescado">Pescado</option>
+        <option value="Patata">Patata</option>
+        <option value="Cebolla">Cebolla</option>
+        <option value="Ajo">Ajo</option>
+        <option value="Huevo">Huevo</option>
+        <option value="Queso">Queso</option>
+        <option value="Leche">Leche</option>
+        <option value="Harina">Harina</option>
+        <option value="Aceite">Aceite</option>
+        <option value="Pimiento">Pimiento</option>
+        <option value="Zanahoria">Zanahoria</option>
+        <option value="Lechuga">Lechuga</option>
+        <option value="Champiñones">Champiñones</option>
+    </select>
+    <input type="submit" value="Buscar">
+</form>
+
 <div th:each="plato : ${platos}">
-    <ul>
-        <p>-------- Plato -----------</p>
-        <li th:text="${plato.nombre}"></li>
-        <li th:text="${plato.precio}"></li>
-        <li th:text="${plato.tipo}"></li>
-    </ul>
 
-    <ul>
-        <p>-------- Ingredientes ----</p>
-        <li th:each="ingrediente : ${plato.ingredientes}" th:text="${ingrediente.nombre_ingrediente}"></li>
-    </ul>
+    <p th:text="${plato.nombre}"></p> <p th:text="${plato.precio}"> €</p>
+    <br>
 
-    <form action="detalles.html">
+    <form action="detalles">
         <input type="submit" value="ver detalles"/>
     </form>
 
-    <br> <br> <br>
+    <form action="">
+        <input type="submit" value="Editar"/>
+    </form>
+
+    <form action="">
+        <input type="submit" value="Borrar"/>
+    </form>
+
+    <br> <br>
 </div>
 
 </body>
