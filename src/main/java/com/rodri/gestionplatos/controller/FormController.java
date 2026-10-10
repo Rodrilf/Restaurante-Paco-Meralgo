@@ -104,4 +104,19 @@ public class FormController {
         model.addAttribute("platos", platos);
         return "datosRespuestas";
     }
+
+    // ventana para editar
+
+    @RequestMapping("/editar")
+    String editar() {
+        return "editar";
+    }
+
+
+    // ventana para borrar
+
+    @RequestMapping("/borrar")
+    String borrar() {
+        return "borrar";
+    }
 }
