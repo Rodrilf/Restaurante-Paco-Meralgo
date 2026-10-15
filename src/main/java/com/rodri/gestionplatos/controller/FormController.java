@@ -14,6 +14,8 @@ import java.util.List;
 @Controller
 public class FormController {
 
+    // TODO pendiente revisar JDBC Template y crear la base de datos con 3 tablas usando nombres como PK y FK para relacionar en una 3ª tabla.
+
     private List<Plato> platos = new ArrayList<>();
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
