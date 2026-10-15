@@ -1,3 +1,4 @@
+
 package Persistencias;
 
 import java.sql.Connection;
@@ -8,26 +9,51 @@ public class ConexionBD {
 
     private static Connection conexion;
 
-    private static final String USUARIO = System.getenv("USUARIO");
-    private static final String PASSWORD = System.getenv("PASSWORD");
+    private ConexionBD() {}
 
-    public static Connection getConexion() throws SQLException {
-        if (conexion == null){
-            conexion = DriverManager.getConnection("jdbc:mysql://para-recursos-ejemplo.c6evih14cs8v.us-east-1.rds.amazonaws.com:3306/recursosbd", USUARIO, PASSWORD);
+    public static Connection getInstance() {
+        if (conexion == null) {
+            try {
+                conexion = DriverManager.getConnection(
+                        "jdbc:mysql://paco-meralgo.c4wgub6fi2f1.us-east-1.rds.amazonaws.com:3306/pacomeralgo",
+                        "admin",
+                        "administrador"
+                );
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
         }
         return conexion;
     }
 
-    // Intento de conexion a la base de datos con mensajes por consola para ver si funciona o no (NO ES OBLIGATORIO PERO SI RECOMENDABLE)
+     /*
+    SCRIPT SQL USADO EN LA BASE DE DATOS:
 
-    public void intentoConexion () {
-        try {
-            ConexionBD.getConexion();
-            System.out.println("Conectado a la base de datos");
+    CREATE DATABASE pacomeralgo;
+    USE pacomeralgo;
 
-        } catch (Exception e){
-            System.out.println("No se ha podido conectar a la base de datos");
-            e.printStackTrace();
-        }
-    }
+    CREATE TABLE platos (
+        nombre VARCHAR(100) PRIMARY KEY,
+        precio DOUBLE,
+        tipo VARCHAR(50)
+    );
+
+    CREATE TABLE ingredientes (
+        nombre VARCHAR(100) PRIMARY KEY
+    );
+
+    CREATE TABLE plato_ingrediente (
+        nombre_plato VARCHAR(100),
+        nombre_ingrediente VARCHAR(100),
+
+        PRIMARY KEY (nombre_plato, nombre_ingrediente),
+
+        FOREIGN KEY (nombre_plato)
+            REFERENCES platos(nombre),
+
+        FOREIGN KEY (nombre_ingrediente)
+            REFERENCES ingredientes(nombre)
+        );
+
+     */
 }

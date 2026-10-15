@@ -1,5 +1,8 @@
+
 package com.rodri.gestionplatos.controller;
 
+import DAO.DAOPlatos;
+import DAO.DAOPlatosMySQL;
 import constructores.Ingrediente;
 import constructores.Plato;
 import org.springframework.stereotype.Controller;
@@ -14,10 +17,12 @@ import java.util.List;
 @Controller
 public class FormController {
 
-    // TODO pendiente revisar JDBC Template y crear la base de datos con 3 tablas usando nombres como PK y FK para relacionar en una 3ª tabla.
-
+    // Listas temporales hasta implementar SELECT con JDBC
     private List<Plato> platos = new ArrayList<>();
     private List<Ingrediente> ingredientes = new ArrayList<>();
+
+    // DAO para insertar platos en MySQL
+    private DAOPlatos dao = new DAOPlatosMySQL();
 
     public FormController() {
         ingredientes.add(new Ingrediente("Tomate"));
@@ -42,34 +47,33 @@ public class FormController {
         ingredientes.add(new Ingrediente("Champiñones"));
     }
 
-
-    // lista completa de los platos
-
+    // Lista completa de platos
     @GetMapping("/lista")
     public String lista(Model model) {
         model.addAttribute("platos", platos);
         return "lista";
     }
 
-    // busqueda por tipo de plato
-
+    // Búsqueda por tipo
     @GetMapping("/buscarPorTipo")
     public String buscarPorTipo(String tipo, Model model) {
         List<Plato> filtrados = new ArrayList<>();
+
         for (Plato plato : platos) {
             if (plato.getTipo().equals(tipo)) {
                 filtrados.add(plato);
             }
         }
+
         model.addAttribute("platos", filtrados);
         return "lista";
     }
 
-    // busqueda por ingrediente
-
+    // Búsqueda por ingrediente
     @GetMapping("/busquedaPorIngrediente")
     public String buscarPorIngrediente(String ingrediente, Model model) {
         List<Plato> filtrados = new ArrayList<>();
+
         for (Plato plato : platos) {
             for (Ingrediente ing : plato.getIngredientes()) {
                 if (ing.getNombre_ingrediente().equals(ingrediente)) {
@@ -77,46 +81,41 @@ public class FormController {
                 }
             }
         }
+
         model.addAttribute("platos", filtrados);
         return "lista";
     }
 
-
-    // detalles de los platos, pero mostrando todos los valores que no muestra lista (a priori misma funcionalidad)
-
+    // Detalles de los platos
     @GetMapping("/detalles")
-    public String detalles(Model model){
+    public String detalles(Model model) {
         model.addAttribute("platos", platos);
         return "detalles";
     }
 
-    // formulario
-
+    // Formulario
     @RequestMapping("/formulario")
-    String formulario (Model model) {
+    String formulario(Model model) {
         model.addAttribute("ingredientes", ingredientes);
         return "formulario";
     }
 
-    // formulario de datos + vuelta al HTML que dice: se ha creado correctamente
-
+    // Insertar plato en MySQL
     @PostMapping("/datos")
     String datos(Plato plato, Model model) {
-        platos.add(plato);
+        dao.insertar(plato); // Es el que inserta en la base de datos
+        platos.add(plato); // Mantiene el array temporalmente hasta que me haga los selects
         model.addAttribute("platos", platos);
         return "datosRespuestas";
     }
 
-    // ventana para editar
-
+    // Ventana para editar
     @RequestMapping("/editar")
     String editar() {
         return "editar";
     }
 
-
-    // ventana para borrar
-
+    // Ventana para borrar
     @RequestMapping("/borrar")
     String borrar() {
         return "borrar";
