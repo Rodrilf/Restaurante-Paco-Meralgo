@@ -50,7 +50,7 @@ public class FormController {
     // Lista completa de platos
     @GetMapping("/lista")
     public String lista(Model model) {
-        model.addAttribute("platos", platos);
+        model.addAttribute("platos", dao.listar());
         return "lista";
     }
 
@@ -101,6 +101,7 @@ public class FormController {
     }
 
     // Insertar plato en MySQL
+
     @PostMapping("/datos")
     String datos(Plato plato, Model model) {
         dao.insertar(plato); // Es el que inserta en la base de datos

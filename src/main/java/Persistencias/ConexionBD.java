@@ -14,11 +14,7 @@ public class ConexionBD {
     public static Connection getInstance() {
         if (conexion == null) {
             try {
-                conexion = DriverManager.getConnection(
-                        "jdbc:mysql://paco-meralgo.c4wgub6fi2f1.us-east-1.rds.amazonaws.com:3306/pacomeralgo",
-                        "admin",
-                        "administrador"
-                );
+                conexion = DriverManager.getConnection("jdbc:mysql://paco-meralgo.c4wgub6fi2f1.us-east-1.rds.amazonaws.com:3306/pacomeralgo", "admin", "administrador");
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

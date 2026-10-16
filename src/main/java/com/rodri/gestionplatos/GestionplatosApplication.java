@@ -7,7 +7,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 public class GestionplatosApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(GestionplatosApplication.class, args);
+		SpringApplication.run(GestionplatosApplication.class, args);	
 	}
 
 }
