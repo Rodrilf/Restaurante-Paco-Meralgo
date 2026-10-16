@@ -21,7 +21,7 @@ public class FormController {
     private List<Plato> platos = new ArrayList<>();
     private List<Ingrediente> ingredientes = new ArrayList<>();
 
-    // DAO para insertar platos en MySQL
+    // DAO para insertar platos en MySQL junto con los ingredientes necesarios
     private DAOPlatos dao = new DAOPlatosMySQL();
 
     public FormController() {
@@ -104,9 +104,11 @@ public class FormController {
 
     @PostMapping("/datos")
     String datos(Plato plato, Model model) {
-        dao.insertar(plato); // Es el que inserta en la base de datos
-        platos.add(plato); // Mantiene el array temporalmente hasta que me haga los selects
-        model.addAttribute("platos", platos);
+        dao.insertarPlato(plato);
+        for (Ingrediente ingrediente : plato.getIngredientes()) {
+            dao.insertarIngrediente(ingrediente);
+            dao.insertarPlatoIngrediente(plato.getNombre(), ingrediente.getNombre_ingrediente());
+        }
         return "datosRespuestas";
     }
 

@@ -1,6 +1,7 @@
 package DAO;
 
 import Persistencias.ConexionBD;
+import constructores.Ingrediente;
 import constructores.Plato;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,13 +11,14 @@ import java.util.List;
 
 public class DAOPlatosMySQL implements DAOPlatos {
 
-    @Override
-    public void insertar(Plato plato) {
+    // 3 metodos para poder insertar a la tabla de platos, a la tabla de ingredientes y a la tabla de plato_ingrediente
 
-        String sql = "INSERT INTO platos (nombre, precio, tipo) VALUES (?, ?, ?)";
+    @Override
+    public void insertarPlato(Plato plato) {
+        String SQLPlato = "INSERT INTO platos (nombre, precio, tipo) VALUES (?, ?, ?)";
 
         try {
-            PreparedStatement ps = ConexionBD.getInstance().prepareStatement(sql);
+            PreparedStatement ps = ConexionBD.getInstance().prepareStatement(SQLPlato);
 
             ps.setString(1, plato.getNombre());
             ps.setDouble(2, plato.getPrecio());
@@ -26,11 +28,43 @@ public class DAOPlatosMySQL implements DAOPlatos {
             ps.close();
 
         } catch (SQLException e) {
-            throw new RuntimeException(e);
+            e.getMessage();
         }
     }
 
     @Override
+    public void insertarIngrediente (Ingrediente ingrediente){
+        String SQLIngrediente = "INSERT INTO ingredientes (nombre) VALUES (?)";
+
+        try {
+            PreparedStatement ps = ConexionBD.getInstance().prepareStatement(SQLIngrediente);
+
+            ps.setString(1, ingrediente.getNombre_ingrediente());
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e){
+            e.getMessage();
+        }
+    }
+
+    @Override
+    public void insertarPlatoIngrediente (String plato, String ingrediente) {
+        String SQLPlatoIngrediente = "INSERT INTO plato_ingrediente (nombre_plato, nombre_ingrediente) VALUES (?, ?)";
+
+        try {
+            PreparedStatement ps = ConexionBD.getInstance().prepareStatement(SQLPlatoIngrediente);
+
+            ps.setString(1, plato);
+            ps.setString(2, ingrediente);
+
+            ps.executeUpdate();
+            ps.close();
+
+        } catch (SQLException e){
+            e.getMessage();
+        }
+    }
 
     public List <Plato> listar(){
         List <Plato> platos = new ArrayList<>();
@@ -53,7 +87,7 @@ public class DAOPlatosMySQL implements DAOPlatos {
             ps.close();
 
         } catch (SQLException e){
-            throw new RuntimeException(e);
+            e.getMessage();
         }
         return platos;
     }
