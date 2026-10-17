@@ -55,16 +55,19 @@
     <p th:text="${plato.nombre}"></p> <p th:text="${plato.precio}"> €</p>
     <br>
 
-    <form action="detalles">
-        <input type="submit" value="ver detalles"/>
+    <form action="/detalles" method="get">
+        <input type="hidden" name="nombre" th:value="${plato.nombre}">
+        <input type="submit" value="Ver detalles">
     </form>
 
-    <form action="editar">
-        <input type="submit" value="Editar"/>
+    <form action="/editar" method="get">
+        <input type="hidden" name="nombre" th:value="${plato.nombre}">
+        <input type="submit" value="Editar">
     </form>
 
-    <form action="borrar">
-        <input type="submit" value="Borrar"/>
+    <form action="/borrar" method="post">
+        <input type="hidden" name="nombre" th:value="${plato.nombre}">
+        <input type="submit" value="Borrar">
     </form>
 
     <br> <br>

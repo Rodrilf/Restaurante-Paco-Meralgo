@@ -1,18 +1,18 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <title>Menú</title>
 </head>
 <body>
 
-<a href="index">Inicio</a>|
-<a href="formulario">Crear plato</a>|
-<a href="lista">Menú</a>|
+<a href="index">Inicio</a> |
+<a href="formulario">Crear plato</a> |
+<a href="lista">Menú</a> |
 
-<h1>Nuestro menú</h1>
+<h1>Detalle del plato</h1>
 
-<div th:each="plato : ${platos}">
+<div th:if="${plato != null}">
     <ul>
         <p>-------- Plato -----------</p>
         <li th:text="${plato.nombre}"></li>
@@ -22,11 +22,12 @@
 
     <ul>
         <p>-------- Ingredientes ----</p>
-        <li th:each="ingrediente : ${plato.ingredientes}" th:text="${ingrediente.nombre_ingrediente}"></li>
+        <li th:each="ingrediente : ${plato.ingredientes}"
+            th:text="${ingrediente.nombre_ingrediente}"></li>
     </ul>
-
-    <br> <br> <br>
 </div>
+
+<p th:if="${plato == null}">Plato no encontrado</p>
 
 </body>
 </html>

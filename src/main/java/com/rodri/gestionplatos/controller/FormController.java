@@ -11,41 +11,11 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import java.util.ArrayList;
-import java.util.List;
-
 @Controller
 public class FormController {
 
-    // Listas temporales hasta implementar SELECT con JDBC
-    private List<Plato> platos = new ArrayList<>();
-    private List<Ingrediente> ingredientes = new ArrayList<>();
-
-    // DAO para insertar platos en MySQL junto con los ingredientes necesarios
+    // DAO para trabajar con MySQL
     private DAOPlatos dao = new DAOPlatosMySQL();
-
-    public FormController() {
-        ingredientes.add(new Ingrediente("Tomate"));
-        ingredientes.add(new Ingrediente("Pasta"));
-        ingredientes.add(new Ingrediente("Sal"));
-        ingredientes.add(new Ingrediente("Azúcar"));
-        ingredientes.add(new Ingrediente("Arroz"));
-        ingredientes.add(new Ingrediente("Pollo"));
-        ingredientes.add(new Ingrediente("Carne"));
-        ingredientes.add(new Ingrediente("Pescado"));
-        ingredientes.add(new Ingrediente("Patata"));
-        ingredientes.add(new Ingrediente("Cebolla"));
-        ingredientes.add(new Ingrediente("Ajo"));
-        ingredientes.add(new Ingrediente("Huevo"));
-        ingredientes.add(new Ingrediente("Queso"));
-        ingredientes.add(new Ingrediente("Leche"));
-        ingredientes.add(new Ingrediente("Harina"));
-        ingredientes.add(new Ingrediente("Aceite"));
-        ingredientes.add(new Ingrediente("Pimiento"));
-        ingredientes.add(new Ingrediente("Zanahoria"));
-        ingredientes.add(new Ingrediente("Lechuga"));
-        ingredientes.add(new Ingrediente("Champiñones"));
-    }
 
     // Lista completa de platos
     @GetMapping("/lista")
@@ -57,70 +27,69 @@ public class FormController {
     // Búsqueda por tipo
     @GetMapping("/buscarPorTipo")
     public String buscarPorTipo(String tipo, Model model) {
-        List<Plato> filtrados = new ArrayList<>();
-
-        for (Plato plato : platos) {
-            if (plato.getTipo().equals(tipo)) {
-                filtrados.add(plato);
-            }
-        }
-
-        model.addAttribute("platos", filtrados);
+        model.addAttribute("platos", dao.buscarPorTipo(tipo));
         return "lista";
     }
 
     // Búsqueda por ingrediente
     @GetMapping("/busquedaPorIngrediente")
     public String buscarPorIngrediente(String ingrediente, Model model) {
-        List<Plato> filtrados = new ArrayList<>();
-
-        for (Plato plato : platos) {
-            for (Ingrediente ing : plato.getIngredientes()) {
-                if (ing.getNombre_ingrediente().equals(ingrediente)) {
-                    filtrados.add(plato);
-                }
-            }
-        }
-
-        model.addAttribute("platos", filtrados);
+        model.addAttribute("platos", dao.buscarPorIngrediente(ingrediente));
         return "lista";
     }
 
     // Detalles de los platos
     @GetMapping("/detalles")
-    public String detalles(Model model) {
-        model.addAttribute("platos", platos);
+    public String detalles(String nombre, Model model) {
+        Plato plato = dao.buscarPorNombre(nombre);
+        model.addAttribute("plato", plato);
         return "detalles";
     }
 
-    // Formulario
+    // Formulario para añadir platos
     @RequestMapping("/formulario")
     String formulario(Model model) {
-        model.addAttribute("ingredientes", ingredientes);
+        model.addAttribute("ingredientes", dao.listarIngredientes());
         return "formulario";
     }
 
-    // Insertar plato en MySQL
-
+    // Insertar plato e ingredientes en MySQL
     @PostMapping("/datos")
-    String datos(Plato plato, Model model) {
+    String datos(Plato plato) {
+
         dao.insertarPlato(plato);
-        for (Ingrediente ingrediente : plato.getIngredientes()) {
-            dao.insertarIngrediente(ingrediente);
-            dao.insertarPlatoIngrediente(plato.getNombre(), ingrediente.getNombre_ingrediente());
+
+        if (plato.getIngredientes() != null) {
+            for (Ingrediente ingrediente : plato.getIngredientes()) {
+                dao.insertarIngrediente(ingrediente);
+                dao.insertarPlatoIngrediente(
+                        plato.getNombre(),
+                        ingrediente.getNombre_ingrediente()
+                );
+            }
         }
+
         return "datosRespuestas";
     }
 
-    // Ventana para editar
-    @RequestMapping("/editar")
-    String editar() {
+    // metodo para editar
+    @GetMapping("/editar")
+    public String editar(String nombre, Model model) {
+        model.addAttribute("plato", dao.buscarPorNombre(nombre));
+        model.addAttribute("ingredientes", dao.listarIngredientes());
         return "editar";
     }
 
-    // Ventana para borrar
-    @RequestMapping("/borrar")
-    String borrar() {
-        return "borrar";
+    @PostMapping("/actualizar")
+    public String actualizar(String nombreOriginal, Plato plato) {
+        dao.actualizarPlato(nombreOriginal, plato);
+        return "redirect:/lista";
+    }
+
+    // metodo para borrar
+    @PostMapping("/borrar")
+    public String borrar(String nombre) {
+        dao.eliminarPlato(nombre);
+        return "redirect:/lista";
     }
 }

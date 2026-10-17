@@ -1,14 +1,52 @@
+
 <!DOCTYPE html>
-<html lang="en">
-
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="UTF-8">
-  <title>Edit ar</title>
+    <meta charset="UTF-8">
+    <title>Editar Plato</title>
 </head>
-
 <body>
-<h1>Editar</h1>
-<p>Ventana para editar, pendiente añadir funcionalidad</p>
-</body>
 
+<a href="index">Inicio</a>|
+<a href="formulario">Crear plato</a>|
+<a href="lista">Menú</a>|
+
+<h1>Formulario para editar un plato</h1>
+
+<form action="/actualizar" method="post">
+
+    <input type="hidden" name="nombreOriginal" th:value="${plato.nombre}">
+
+    <p>Nombre del plato:</p>
+    <input name="nombre" type="text" th:value="${plato.nombre}">
+
+    <p>Precio del plato:</p>
+    <input name="precio" type="number" step="0.01" th:value="${plato.precio}">
+
+    <p>Elige el tipo de plato</p>
+    <select name="tipo">
+        <option value="PRIMERO" th:selected="${plato.tipo == 'PRIMERO'}">Primero</option>
+        <option value="SEGUNDO" th:selected="${plato.tipo == 'SEGUNDO'}">Segundo</option>
+        <option value="POSTRE" th:selected="${plato.tipo == 'POSTRE'}">Postre</option>
+    </select>
+
+    <br><br>
+
+    <p>Elige los ingredientes</p>
+
+    <div th:each="ingrediente : ${ingredientes}">
+        <input type="checkbox"
+               name="ingredientes"
+               th:value="${ingrediente.nombre_ingrediente}"
+               th:checked="${#lists.contains(plato.ingredientes.![nombre_ingrediente], ingrediente.nombre_ingrediente)}">
+        <label th:text="${ingrediente.nombre_ingrediente}"></label>
+    </div>
+
+    <br><br>
+
+    <button>Guardar cambios</button>
+
+</form>
+
+</body>
 </html>
